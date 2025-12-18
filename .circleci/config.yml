@@ -10,43 +10,57 @@ jobs:
       - image: "cimg/node:14.15"
     steps:
       - node/install:
-          node-version: "14.15"
+          node-version: '14.15'
       - checkout
-      # Install Frontend Dependencies
+      # Install Frontend
       - run:
           name: Install Front-End Dependencies
-          command: npm run frontend:install
-      # Install API Dependencies
+          command: |
+            cd udagram/udagram-frontend
+            npm install -f
+      # Install API
       - run:
           name: Install API Dependencies
-          command: npm run api:install
-      # Lint the Frontend
+          command: |
+             cd udagram/udagram-api
+             npm install
+      # Lint Frontend
       - run:
           name: Front-End Lint
-          command: npm run frontend:lint
-      # Build the Frontend
+          command: |
+            cd udagram/udagram-frontend
+            npm run lint
+      # Build Frontend
       - run:
           name: Front-End Build
-          command: npm run frontend:build
-      # Build the API
+          command: |
+            cd udagram/udagram-frontend
+            npm run build
+      # Build API
       - run:
           name: API Build
-          command: npm run api:build
+          command: |
+            cd udagram/udagram-api
+            npm run build
 
   deploy:
     docker:
       - image: "cimg/base:stable"
     steps:
       - node/install:
-          node-version: "14.15"
+          node-version: '14.15'
       - eb/setup
       - aws-cli/setup
       - checkout
       - run:
           name: Deploy App
-          # This runs 'npm run deploy' from the root package.json,
-          # which triggers both api:deploy and frontend:deploy
-          command: npm run deploy
+          command: |
+            # Deploy Frontend
+            cd udagram/udagram-frontend
+            npm run deploy
+            # Deploy API
+            cd ../udagram-api
+            npm run deploy
 
 workflows:
   udagram:
@@ -56,7 +70,7 @@ workflows:
           filters:
             branches:
               only:
-                - master  
+                - master
           type: approval
           requires:
             - build
