@@ -5,7 +5,7 @@ This project is deployed using Amazon Web Services (AWS) using the following com
 ## 1. Frontend (Client)
 - **Service**: AWS S3 (Simple Storage Service)
 - **Configuration**: Static Website Hosting
-- **Bucket Name**: `bucket-udacity-app` (example)
+- **Bucket Name**: `bucket-udacity-app` 
 - **Access**: Publicly accessible via the S3 website URL.
 - **Build Artifact**: Angular compiled code (`www` folder).
 
