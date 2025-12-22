@@ -23,3 +23,14 @@ This project is deployed using Amazon Web Services (AWS) using the following com
 ## 4. File Storage
 - **Service**: AWS S3
 - **Usage**: Storing user-uploaded images from the specific API routes.
+
+## Architecture Diagram
+
+```mermaid
+graph LR
+    User[User Browser] -- HTTP/HTTPS --> Frontend[S3 Bucket<br/>Static Website]
+    Frontend -- API Calls --> API[Elastic Beanstalk<br/>Node.js API]
+    API -- SQL --> DB[(RDS PostgreSQL)]
+    API -- Uploads/Images --> MediaBucket[S3 Media Bucket]
+```
+
